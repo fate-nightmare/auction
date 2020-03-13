@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.accp.dao.IAuctionDAO">
+
+	<delete id="del">
+		delete from auction
+		where auctionId = #{auctionId}
+	</delete>
+
+	<insert id="insert">
+		insert into auction (auctionId,auctionName,auctionStartPrice,auctionUpset,auctionStartTime,auctionEndTime,auctionPicType,auctionDesc)
+		value(0,#{a.auctionName},#{a.auctionStartPrice},#{a.auctionUpset},#{a.auctionStartTime},#{a.auctionEndTime},#{a.auctionPicType},#{a.auctionDesc})
+	</insert>
+
+	<update id="update">
+		update auction set auctionName = #{a.auctionName},auctionStartPrice = #{a.auctionStartPrice},auctionUpset = #{a.auctionUpset},auctionStartTime = #{a.auctionStartTime},auctionEndTime = #{a.auctionEndTime},auctionPicType = #{a.auctionPicType},auctionDesc = #{a.auctionDesc}
+		where auctionId = #{a.auctionId}
+	</update>
+	
+	<select id="queryById" resultType="Auction">
+		select * from auction
+		where auctionId = #{auctionId}
+	</select>
+
+	<select id="queryAll" resultType="Auction">
+		select * from auction
+		where auctionEndTime > NOW()
+	</select>
+
+</mapper>

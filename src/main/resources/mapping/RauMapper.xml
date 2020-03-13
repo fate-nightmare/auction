@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.accp.dao.IRauDAO">
+
+	<select id="queryByMinTime" resultType="Rau">
+		SELECT `auctionName`,`auctionStartTime`,`auctionEndTime`,`auctionStartPrice`,`auctionUpset`,
+		(SELECT `userName` FROM `auctionuser` AS u WHERE u.`userId` = r.`userId`) AS userName ,
+		MAX(r.`auctionPrice`) AS auctionPrice
+		FROM `auctionrecord` AS r
+		INNER JOIN `auction` AS a
+		ON r.`auctionId` = a.`auctionId`
+		INNER JOIN `auctionuser` AS u
+		ON r.`userId` = u.`userId`
+		WHERE NOW() > a.`auctionEndTime`
+		GROUP BY a.`auctionName`,r.`userId` DESC
+		LIMIT 1
+	</select>
+
+	<select id="queryByMaxTime" resultType="Rau">
+		SELECT `auctionName`,`auctionStartTime`,`auctionEndTime`,`auctionStartPrice`,`auctionUpset`,
+		(SELECT `userName` FROM `auctionuser` AS us WHERE us.`userId` = r.`userId`) AS userName ,r.`auctionPrice`
+		FROM `auctionrecord` AS r
+		INNER JOIN `auction` AS a
+		ON r.`auctionId` = a.`auctionId`
+		INNER JOIN `auctionuser` AS u
+		ON r.`userId` = u.`userId`
+		WHERE a.`auctionEndTime` > NOW()
+	</select>
+
+</mapper>

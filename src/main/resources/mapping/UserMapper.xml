@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.accp.dao.IUserDAO">
+
+	<select id="queryByUserName" resultType="Auctionuser">
+		select userId from auctionuser
+		where userName = #{userName}
+	</select>
+
+	<select id="login" resultType="Auctionuser">
+		select * from auctionuser
+		where userName = #{userName} and userPassword = #{userPassword}
+	</select>
+
+	<insert id="register">
+		insert into auctionuser(userId,userName,userPassword,userCardNo,userTel,userAddress,userPostNumber)
+		value(0,#{u.userName},#{u.userPassword},#{u.userCardNo},#{u.userTel},#{u.userAddress},#{u.userPostNumber})
+	</insert>
+
+</mapper>

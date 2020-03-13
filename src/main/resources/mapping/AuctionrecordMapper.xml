@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.accp.dao.IAuctionrecordDAO">
+
+	<insert id="insertByRecord">
+		insert into auctionrecord (id,userId,auctionId,auctionTime,auctionPrice)
+		value(#{a.id},#{a.userId},#{a.auctionId},#{a.auctionTime},#{a.auctionPrice})
+	</insert>
+	
+	<select id="queryByRid" resultType="Rau">
+		SELECT r.`auctionTime`,r.`auctionPrice`,
+		(SELECT `userName` FROM `auctionuser` AS u WHERE u.`userId` = r.`userId`) AS userName
+		FROM auctionrecord AS r
+		INNER JOIN `auctionuser` AS u
+		ON r.`userId` = u.`userId`
+		WHERE r.auctionId = #{auctionId}
+		ORDER BY r.`auctionTime` DESC
+	</select>
+
+</mapper>
